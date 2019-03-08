@@ -10,9 +10,9 @@ Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 ```    
 
-Code: 
+Code1: 
 ```go 
-func twoSum(nums []int, target int) []int {
+func twoSum1(nums []int, target int) []int {
 	lst := make([]int, 0)
 	for i := 0; i < len(nums); i++ {
 		for j := i+1; j < (len(nums)); j++ {
@@ -22,5 +22,40 @@ func twoSum(nums []int, target int) []int {
 		}
 	}
 	return lst
+}
+```
+
+Code2: 
+```go 
+func twoSum2(nums []int, target int) []int {
+	dict := make(map[int]int, len(nums))
+	for i, num := range nums {
+		dict[num] = i
+	}
+
+	// dict: [3:1]
+
+	for i, num := range nums {
+		pair := target - num
+		if j, ok := dict[pair]; ok && i != j {
+			return []int{i, j}
+		}
+	}
+	return nil
+}
+```
+
+Code3: 
+```go
+func twoSum(nums []int, target int) []int {
+	num2index := make(map[int]int, len(nums))
+	for i, num := range nums {
+		pair := target - num
+		if j, ok := num2index[pair]; ok && i != j {
+			return []int{j, i} // 注意返回值顺序，向后遍历 nums，所以 i 在 j 后
+		}
+		num2index[num] = i
+	}
+	return nil
 }
 ```
